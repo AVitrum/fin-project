@@ -1,0 +1,59 @@
+@model FInProject.Models.Product
+
+@{
+    ViewData["Title"] = "Додати продукт";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="ProductName" class="control-label">Назва</label>
+        <input asp-for="ProductName" class="form-control" />
+        <span asp-validation-for="ProductName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="RawMaterialCost" class="control-label">Сирована та основні матеріали</label>
+        <input asp-for="RawMaterialCost" class="form-control" />
+        <span asp-validation-for="RawMaterialCost" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AuxiliaryMaterialCost" class="control-label">Допоміжні матеріали</label>
+        <input asp-for="AuxiliaryMaterialCost" class="form-control" />
+        <span asp-validation-for="AuxiliaryMaterialCost" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ScrapCost" class="control-label">Зворотні відходи (грн.)</label>
+        <input asp-for="ScrapCost" class="form-control" />
+        <span asp-validation-for="ScrapCost" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="BaseSalary" class="control-label">Основна з/п виробничих робітників (грн.)</label>
+        <input asp-for="BaseSalary" class="form-control" />
+        <span asp-validation-for="BaseSalary" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AdditionalSalary" class="control-label">Додаткова з/п виробничих робітників (грн.)</label>
+        <input asp-for="AdditionalSalary" class="form-control" />
+        <span asp-validation-for="AdditionalSalary" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ManufacturingOverheads" class="control-label">Витрати на підготовку та освоєння виробництва (грн.)</label>
+        <input asp-for="ManufacturingOverheads" class="form-control" />
+        <span asp-validation-for="ManufacturingOverheads" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Quantity" class="control-label">Кількість (шт.)</label>
+        <input asp-for="Quantity" class="form-control" />
+        <span asp-validation-for="Quantity" class="text-danger"></span>
+    </div>
+    <br/>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Створити</button>
+        <a asp-action="Index" class="btn btn-secondary">Скасувати</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Продукти</title>
+    <link rel="stylesheet" href="~/css/product_index.css">
+</head>
+<body>
+<h2 style="text-align: center; margin-bottom: 20px;">Продукти</h2>
+
+<div style="text-align: center; margin-bottom: 20px;">
+    <button onclick="printTable()">Друкувати таблицю</button>
+    <a asp-action="Create" class="btn btn-outline-primary">Додати продукт</a>
+</div>
+
+<div class="table-wrapper">
+    <div class="table-container">
+        <table class="styled-table" id="printTable">
+            <thead>
+            <tr>
+                <th>№</th>
+                <th>Назва продукту</th>
+                <th>Вартість сировини</th>
+                <th>Вартість допоміжних матеріалів</th>
+                <th>Вартість відходів</th>
+                <th>Основна заробітна плата</th>
+                <th>Додаткова заробітна плата</th>
+                <th>ЄСВ</th>
+                <th>Витрати на підготовку</th>
+                <th>Загальновиробничі витрати</th>
+                <th>Адміністративні витрати</th>
+                <th>Кількість</th>
+                <th>Собівартість одиниці</th>
+                <th>Загальна собівартість</th>
+            </tr>
+            </thead>
+            <tbody>
+            @{
+            int index = 1;
+            }
+            @foreach (Product product in Model)
+            {
+            <tr>
+                <td>@index</td>
+                <td>@product.ProductName</td>
+                <td>@product.RawMaterialCost</td>
+                <td>@product.AuxiliaryMaterialCost</td>
+                <td>@product.ScrapCost</td>
+                <td>@product.BaseSalary</td>
+                <td>@product.AdditionalSalary</td>
+                <td>@product.Esv</td>
+                <td>@product.PreparationCost</td>
+                <td>@product.ManufacturingOverheads</td>
+                <td>@product.AdministrativeExpenses</td>
+                <td>@product.Quantity</td>
+                <td>@product.CalculateUnitCost()</td>
+                <td>@product.CalculateTotalCost()</td>
+            </tr>
+            index++;
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    function printTable() {
+        const printContents = document.getElementById("printTable").outerHTML;
+        const win = window.open('', '', 'height=1122,width=793');
+        win.document.write(`
+        <html lang="ua">
+        <head>
+            <title>Звіт</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    margin: 20px;
+                    font-size: 12px;
+                }
+                .styled-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    font-size: 12px;
+                    background-color: #ffffff;
+                    box-shadow: none;
+                    border: 1px solid #000;
+                }
+                .styled-table th, .styled-table td {
+                    padding: 8px 10px;
+                    border: 1px solid #000;
+                    vertical-align: middle;
+                }
+                .styled-table thead th {
+                    background-color: #009879;
+                    color: #ffffff;
+                }
+                .styled-table tbody tr:nth-of-type(even) {
+                    background-color: #f3f3f3;
+                }
+                .styled-table tbody tr:hover {
+                    background-color: #f1f1f1;
+                }
+            </style>
+        </head>
+        <body>
+            <h2 style="text-align:center; font-size: 16px;">Продукти</h2>
+            ${printContents}
+        </body>
+        </html>
+    `);
+        win.document.close();
+        win.print();
+    }
+</script>
+</body>
+</html>

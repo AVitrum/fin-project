@@ -1,0 +1,6 @@
+﻿services:
+  finproject:
+    image: finproject
+    build:
+      context: .
+      dockerfile: FInProject/Dockerfile
