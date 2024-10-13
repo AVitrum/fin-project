@@ -9,30 +9,36 @@
 <body>
 <h2 style="text-align: center; margin-bottom: 20px;">Продукти</h2>
 
-<div style="text-align: center; margin-bottom: 20px;">
-    <button onclick="printTable()">Друкувати таблицю</button>
+<div style="text-align: left; margin-bottom: 20px;">
     <a asp-action="Create" class="btn btn-outline-primary">Додати продукт</a>
+    <button class="btn btn-outline-secondary" onclick="printTable()">Друкувати таблицю</button>
 </div>
 
-<div class="table-wrapper">
-    <div class="table-container">
-        <table class="styled-table" id="printTable">
+<div class="table-wrapper1">
+    <div class="table-container1">
+        <table class="styled-table1" id="printTable">
             <thead>
             <tr>
-                <th>№</th>
-                <th>Назва продукту</th>
-                <th>Вартість сировини</th>
-                <th>Вартість допоміжних матеріалів</th>
-                <th>Вартість відходів</th>
-                <th>Основна заробітна плата</th>
-                <th>Додаткова заробітна плата</th>
-                <th>ЄСВ</th>
-                <th>Витрати на підготовку</th>
-                <th>Загальновиробничі витрати</th>
-                <th>Адміністративні витрати</th>
-                <th>Кількість</th>
-                <th>Собівартість одиниці</th>
-                <th>Загальна собівартість</th>
+                <th rowspan="2">№</th>
+                <th rowspan="2">Назва продукту</th>
+                <th colspan="2">Вартість сировини</th>
+                <th colspan="2">Вартість допоміжних матеріалів</th>
+                <th colspan="2">Вартість відходів</th>
+                <th colspan="2">Основна заробітна плата</th>
+                <th colspan="2">Додаткова заробітна плата</th>
+                <th colspan="2">ЄСВ</th>
+                <th colspan="2">Витрати на підготовку</th>
+                <th colspan="2">Загальновиробничі витрати</th>
+                <th colspan="2">Адміністративні витрати</th>
+                <th rowspan="2">Кількість</th>
+                <th colspan="2">Собівартість</th>
+            </tr>
+            <tr>
+                @for (int i = 0; i < 10; i++)
+                {
+                    <th rowspan="2">На одиницю</th>
+                    <th rowspan="2">На випуск</th>
+                }
             </tr>
             </thead>
             <tbody>
@@ -45,14 +51,23 @@
                 <td>@index</td>
                 <td>@product.ProductName</td>
                 <td>@product.RawMaterialCost</td>
+                <td>@(product.RawMaterialCost * product.Quantity)</td>
                 <td>@product.AuxiliaryMaterialCost</td>
+                <td>@(product.AuxiliaryMaterialCost * product.Quantity)</td>
                 <td>@product.ScrapCost</td>
+                <td>@(product.ScrapCost * product.Quantity)</td>
                 <td>@product.BaseSalary</td>
+                <td>@(product.BaseSalary * product.Quantity)</td>
                 <td>@product.AdditionalSalary</td>
+                <td>@(product.AdditionalSalary * product.Quantity)</td>
                 <td>@product.Esv</td>
+                <td>@(product.Esv * product.Quantity)</td>
                 <td>@product.PreparationCost</td>
+                <td>@(product.PreparationCost * product.Quantity)</td>
                 <td>@product.ManufacturingOverheads</td>
+                <td>@(product.ManufacturingOverheads * product.Quantity)</td>
                 <td>@product.AdministrativeExpenses</td>
+                <td>@(product.AdministrativeExpenses * product.Quantity)</td>
                 <td>@product.Quantity</td>
                 <td>@product.CalculateUnitCost()</td>
                 <td>@product.CalculateTotalCost()</td>
@@ -66,7 +81,7 @@
 <script>
     function printTable() {
         const printContents = document.getElementById("printTable").outerHTML;
-        const win = window.open('', '', 'height=1122,width=793');
+        const win = window.open('', '');
         win.document.write(`
         <html lang="ua">
         <head>
@@ -77,28 +92,43 @@
                     margin: 20px;
                     font-size: 12px;
                 }
-                .styled-table {
+
+                .styled-table1 {
                     width: 100%;
+                    min-width: 1000px;
                     border-collapse: collapse;
-                    font-size: 12px;
+                    font-size: 16px;
+                    text-align: center;
                     background-color: #ffffff;
-                    box-shadow: none;
-                    border: 1px solid #000;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    margin: 0 auto;
                 }
-                .styled-table th, .styled-table td {
-                    padding: 8px 10px;
-                    border: 1px solid #000;
+
+                .styled-table1 th, .styled-table1 td {
+                    padding: 12px 15px;
+                    border: 1px solid #ddd; 
+                    margin: 0;
                     vertical-align: middle;
                 }
-                .styled-table thead th {
-                    background-color: #009879;
+
+                .styled-table1 thead th {
+                    background-color: #0077cc;
                     color: #ffffff;
+                    top: 0;
                 }
-                .styled-table tbody tr:nth-of-type(even) {
+
+                .styled-table1 tbody tr {
+                    border-bottom: 1px solid #dddddd;
+                    padding: 10px;
+                }
+
+                .styled-table1 tbody tr:nth-of-type(even) {
                     background-color: #f3f3f3;
                 }
-                .styled-table tbody tr:hover {
+
+                .styled-table1 tbody tr:hover {
                     background-color: #f1f1f1;
+                    cursor: pointer;
                 }
             </style>
         </head>

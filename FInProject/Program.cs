@@ -1,7 +1,5 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using FInProject.Data;
-using FInProject.Models;
 using FInProject.Repositories;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
