@@ -1,0 +1,34 @@
+@model System.Collections.Generic.List<FInProject.Models.AssetTable>
+
+@{
+    ViewBag.Title = "Asset Tables";
+    Layout = "_Layout";
+}
+
+<h2>Asset Tables</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Номер Таблиці</th>
+        <th>Дія</th>
+    </tr>
+    </thead>
+    <tbody>
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <tr>
+            <td>@(i + 1)</td>
+            <td>@Model[i].Id</td>
+            <td>
+
+                @{
+                    int i1 = i;
+                }
+                <a asp-action="Details" asp-route-id="@Model[i1].Id" class="btn btn-info">Details</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

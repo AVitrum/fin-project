@@ -4,7 +4,6 @@ body {
 
 .table-wrapper1 {
     width: 100%;
-    padding: 20px;
     text-align: center;
 }
 
@@ -35,7 +34,7 @@ body {
 }
 
 .styled-table1 thead th {
-    background-color: #0077cc;
+    background-color: #14375c;
     color: #ffffff;
     top: 0;
 }

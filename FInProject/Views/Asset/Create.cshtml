@@ -1,0 +1,33 @@
+@using System.Reflection
+@using FInProject.Helpers
+@model FInProject.Models.AssetTable
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<form asp-action="Create" method="post">
+    @foreach (PropertyInfo assetCategoryProperty in Model.GetType().GetProperties())
+    {
+        if (typeof(BaseModel).IsAssignableFrom(assetCategoryProperty.PropertyType))
+        {
+            object? assetCategory = assetCategoryProperty.GetValue(Model);
+            PropertyInfo? nameProperty = assetCategory?.GetType().GetProperty("Name");
+            string? categoryName = nameProperty != null ? nameProperty.GetValue(assetCategory)?.ToString() : assetCategoryProperty.Name;
+
+            <h3><strong>@categoryName</strong></h3>
+
+            @foreach (PropertyInfo property in assetCategory?.GetType().GetProperties()!)
+            {
+                if (property.PropertyType == typeof(Asset))
+                {
+                    Asset asset = (Asset)property.GetValue(assetCategory)!;
+                    string startName = $"AssetTable.{assetCategoryProperty.Name}.{property.Name}.AtStart";
+                    string endName = $"AssetTable.{assetCategoryProperty.Name}.{property.Name}.AtEnd";
+
+                    @HtmlHelperExtensions.RenderAssetProperty(startName, endName, asset.OriginalName, asset.AtStart, asset.AtEnd)
+                }
+            }
+        }
+    }
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>

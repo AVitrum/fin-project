@@ -1,0 +1,227 @@
+@using System.Reflection
+@model AssetTable
+
+@{
+    ViewBag.Title = "Asset Details";
+    Layout = "_Layout";
+    int nonCurrentAssetCount = Model.NonCurrentAsset.GetType().GetProperties().Count(p => !p.Name.EndsWith("Id"));
+    int currentAssetCount = Model.CurrentAsset.GetType().GetProperties().Count(p => !p.Name.EndsWith("Id"));
+    int nonCurrentAssetsHeldForSaleCount = Model.NonCurrentAssetsHeldForSaleDisposalGroup.GetType().GetProperties().Count(p => !p.Name.EndsWith("Id"));
+    int registeredCapitalCount = Model.RegisteredCapital.GetType().GetProperties().Count(p => !p.Name.EndsWith("Id"));
+    int longTermLiabilitiesCount = Model.LongTermLiabilitiesAndProvision.GetType().GetProperties().Count(p => !p.Name.EndsWith("Id"));
+    int currentLiabilitiesCount = Model.CurrentLiabilitiesAndProvision.GetType().GetProperties().Count(p => !p.Name.EndsWith("Id"));
+    int liabilitiesRelatedToNonCurrentAssetsHeldForSaleCount = Model.LiabilitiesRelatedToNonCurrentAssetsHeldForSaleDisposalGroup.GetType().GetProperties().Count(p => !p.Name.EndsWith("Id"));
+}
+
+<style>
+    .asset-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 18px;
+        text-align: left;
+    }
+    .asset-table th, .asset-table td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+    }
+    .asset-table th {
+        background-color: #f4f4f4;
+    }
+    .asset-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    .asset-table tr:nth-child(odd) {
+        background-color: #ffffff;
+    }
+    .asset-table tr:hover {
+        background-color: #f1f1f1;
+    }
+    .asset-table th, .asset-table td {
+        text-align: center;
+    }
+    .asset-table td[rowspan] {
+        background-color: #d3d3d3;
+        font-weight: bold;
+    }
+
+    @@media print {
+        body {
+            width: 210mm;
+            height: 297mm;
+        }
+        .asset-table {
+            font-size: 12px;
+        }
+        .print-button, .navbar, .footer {
+            display: none;
+        }
+        .container {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        main {
+            padding: 0;
+        }
+    }
+</style>
+
+<h2>Asset Details</h2>
+
+<button class="btn btn-primary print-button" onclick="window.print()">Print</button>
+
+<table class="asset-table">
+    <thead>
+    <tr>
+        <th>Розділ</th>
+        <th>Актив</th>
+        <th>Код рядка</th>
+        <th>На початок звітного періоду</th>
+        <th>На кінець звітного періоду</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td></td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+    </tr>
+    <!-- Non-Current Asset Section -->
+    <tr>
+        <td rowspan="@nonCurrentAssetCount">@Model.NonCurrentAsset.Name</td>
+        @foreach (PropertyInfo asset in Model.NonCurrentAsset.GetType().GetProperties())
+        {
+            if (!asset.Name.EndsWith("Id") && !asset.Name.Equals("Name"))
+            {
+                <tr>
+                    <td>@asset.GetValue(Model.NonCurrentAsset)?.GetType().GetProperty("OriginalName")?.GetValue(asset.GetValue(Model.NonCurrentAsset))</td>
+                    <td>@asset.GetValue(Model.NonCurrentAsset)?.GetType().GetProperty("Code")?.GetValue(asset.GetValue(Model.NonCurrentAsset))</td>
+                    <td>@asset.GetValue(Model.NonCurrentAsset)?.GetType().GetProperty("AtStart")?.GetValue(asset.GetValue(Model.NonCurrentAsset))</td>
+                    <td>@asset.GetValue(Model.NonCurrentAsset)?.GetType().GetProperty("AtEnd")?.GetValue(asset.GetValue(Model.NonCurrentAsset))</td>
+                </tr>
+            }
+        }
+    </tr>
+
+    <!-- Current Asset Section -->
+    <tr>
+        <td rowspan="@currentAssetCount">@Model.CurrentAsset.Name</td>
+            @foreach (PropertyInfo asset in Model.CurrentAsset.GetType().GetProperties())
+            {
+                if (!asset.Name.EndsWith("Id") && !asset.Name.Equals("Name"))
+                {
+                    <tr>
+                        <td>@asset.GetValue(Model.CurrentAsset)?.GetType().GetProperty("OriginalName")?.GetValue(asset.GetValue(Model.CurrentAsset))</td>
+                        <td>@asset.GetValue(Model.CurrentAsset)?.GetType().GetProperty("Code")?.GetValue(asset.GetValue(Model.CurrentAsset))</td>
+                        <td>@asset.GetValue(Model.CurrentAsset)?.GetType().GetProperty("AtStart")?.GetValue(asset.GetValue(Model.CurrentAsset))</td>
+                        <td>@asset.GetValue(Model.CurrentAsset)?.GetType().GetProperty("AtEnd")?.GetValue(asset.GetValue(Model.CurrentAsset))</td>
+                    </tr>
+                }
+            }
+    </tr>
+
+    <!-- Non-Current Assets Held For Sale Section -->
+    <tr>
+        <td rowspan="@nonCurrentAssetsHeldForSaleCount">@Model.NonCurrentAssetsHeldForSaleDisposalGroup.Name</td>
+            @foreach (PropertyInfo asset in Model.NonCurrentAssetsHeldForSaleDisposalGroup.GetType().GetProperties())
+            {
+                if (!asset.Name.EndsWith("Id") && !asset.Name.Equals("Name"))
+                {
+                    <tr>
+                        <td>@asset.GetValue(Model.NonCurrentAssetsHeldForSaleDisposalGroup)?.GetType().GetProperty("OriginalName")?.GetValue(asset.GetValue(Model.NonCurrentAssetsHeldForSaleDisposalGroup))</td>
+                        <td>@asset.GetValue(Model.NonCurrentAssetsHeldForSaleDisposalGroup)?.GetType().GetProperty("Code")?.GetValue(asset.GetValue(Model.NonCurrentAssetsHeldForSaleDisposalGroup))</td>
+                        <td>@asset.GetValue(Model.NonCurrentAssetsHeldForSaleDisposalGroup)?.GetType().GetProperty("AtStart")?.GetValue(asset.GetValue(Model.NonCurrentAssetsHeldForSaleDisposalGroup))</td>
+                        <td>@asset.GetValue(Model.NonCurrentAssetsHeldForSaleDisposalGroup)?.GetType().GetProperty("AtEnd")?.GetValue(asset.GetValue(Model.NonCurrentAssetsHeldForSaleDisposalGroup))</td>
+                    </tr>
+                }
+            }
+    </tr>
+
+    <tr>
+        <td>Розділ</td>
+        <td>Пасив</td>
+        <td>Код рядка</td>
+        <td>На початок звітного періоду</td>
+        <td>На кінець звітного періоду</td>
+    </tr>
+
+    <tr>
+        <td></td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+    </tr>
+
+    <!-- Registered Capital Section -->
+    <tr>
+        <td rowspan="@registeredCapitalCount">@Model.RegisteredCapital.Name</td>
+            @foreach (PropertyInfo asset in Model.RegisteredCapital.GetType().GetProperties())
+            {
+                if (!asset.Name.EndsWith("Id") && !asset.Name.Equals("Name"))
+                {
+                    <tr>
+                        <td>@asset.GetValue(Model.RegisteredCapital)?.GetType().GetProperty("OriginalName")?.GetValue(asset.GetValue(Model.RegisteredCapital))</td>
+                        <td>@asset.GetValue(Model.RegisteredCapital)?.GetType().GetProperty("Code")?.GetValue(asset.GetValue(Model.RegisteredCapital))</td>
+                        <td>@asset.GetValue(Model.RegisteredCapital)?.GetType().GetProperty("AtStart")?.GetValue(asset.GetValue(Model.RegisteredCapital))</td>
+                        <td>@asset.GetValue(Model.RegisteredCapital)?.GetType().GetProperty("AtEnd")?.GetValue(asset.GetValue(Model.RegisteredCapital))</td>
+                    </tr>
+                }
+            }
+    </tr>
+
+    <!-- Long Term Liabilities Section -->
+    <tr>
+        <td rowspan="@longTermLiabilitiesCount">@Model.LongTermLiabilitiesAndProvision.Name</td>
+            @foreach (PropertyInfo asset in Model.LongTermLiabilitiesAndProvision.GetType().GetProperties())
+            {
+                if (!asset.Name.EndsWith("Id") && !asset.Name.Equals("Name"))
+                {
+                    <tr>
+                        <td>@asset.GetValue(Model.LongTermLiabilitiesAndProvision)?.GetType().GetProperty("OriginalName")?.GetValue(asset.GetValue(Model.LongTermLiabilitiesAndProvision))</td>
+                        <td>@asset.GetValue(Model.LongTermLiabilitiesAndProvision)?.GetType().GetProperty("Code")?.GetValue(asset.GetValue(Model.LongTermLiabilitiesAndProvision))</td>
+                        <td>@asset.GetValue(Model.LongTermLiabilitiesAndProvision)?.GetType().GetProperty("AtStart")?.GetValue(asset.GetValue(Model.LongTermLiabilitiesAndProvision))</td>
+                        <td>@asset.GetValue(Model.LongTermLiabilitiesAndProvision)?.GetType().GetProperty("AtEnd")?.GetValue(asset.GetValue(Model.LongTermLiabilitiesAndProvision))</td>
+                    </tr>
+                }
+            }
+    </tr>
+
+    <!-- Current Liabilities Section -->
+    <tr>
+        <td rowspan="@currentLiabilitiesCount">@Model.CurrentLiabilitiesAndProvision.Name</td>
+            @foreach (PropertyInfo asset in Model.CurrentLiabilitiesAndProvision.GetType().GetProperties())
+            {
+                if (!asset.Name.EndsWith("Id") && !asset.Name.Equals("Name"))
+                {
+                    <tr>
+                        <td>@asset.GetValue(Model.CurrentLiabilitiesAndProvision)?.GetType().GetProperty("OriginalName")?.GetValue(asset.GetValue(Model.CurrentLiabilitiesAndProvision))</td>
+                        <td>@asset.GetValue(Model.CurrentLiabilitiesAndProvision)?.GetType().GetProperty("Code")?.GetValue(asset.GetValue(Model.CurrentLiabilitiesAndProvision))</td>
+                        <td>@asset.GetValue(Model.CurrentLiabilitiesAndProvision)?.GetType().GetProperty("AtStart")?.GetValue(asset.GetValue(Model.CurrentLiabilitiesAndProvision))</td>
+                        <td>@asset.GetValue(Model.CurrentLiabilitiesAndProvision)?.GetType().GetProperty("AtEnd")?.GetValue(asset.GetValue(Model.CurrentLiabilitiesAndProvision))</td>
+                    </tr>
+                }
+            }
+    </tr>
+
+    <!-- Liabilities Related To Non-Current Assets Held For Sale Section -->
+    <tr>
+        <td rowspan="@liabilitiesRelatedToNonCurrentAssetsHeldForSaleCount">@Model.LiabilitiesRelatedToNonCurrentAssetsHeldForSaleDisposalGroup.Name</td>
+            @foreach (PropertyInfo asset in Model.LiabilitiesRelatedToNonCurrentAssetsHeldForSaleDisposalGroup.GetType().GetProperties())
+            {
+                if (!asset.Name.EndsWith("Id") && !asset.Name.Equals("Name"))
+                {
+                <tr>
+                    <td>@asset.GetValue(Model.LiabilitiesRelatedToNonCurrentAssetsHeldForSaleDisposalGroup)?.GetType().GetProperty("OriginalName")?.GetValue(asset.GetValue(Model.LiabilitiesRelatedToNonCurrentAssetsHeldForSaleDisposalGroup))</td>
+                    <td>@asset.GetValue(Model.LiabilitiesRelatedToNonCurrentAssetsHeldForSaleDisposalGroup)?.GetType().GetProperty("Code")?.GetValue(asset.GetValue(Model.LiabilitiesRelatedToNonCurrentAssetsHeldForSaleDisposalGroup))</td>
+                    <td>@asset.GetValue(Model.LiabilitiesRelatedToNonCurrentAssetsHeldForSaleDisposalGroup)?.GetType().GetProperty("AtStart")?.GetValue(asset.GetValue(Model.LiabilitiesRelatedToNonCurrentAssetsHeldForSaleDisposalGroup))</td>
+                    <td>@asset.GetValue(Model.LiabilitiesRelatedToNonCurrentAssetsHeldForSaleDisposalGroup)?.GetType().GetProperty("AtEnd")?.GetValue(asset.GetValue(Model.LiabilitiesRelatedToNonCurrentAssetsHeldForSaleDisposalGroup))</td>
+                </tr>
+                }
+            }
+    </tr>
+    </tbody>
+</table>

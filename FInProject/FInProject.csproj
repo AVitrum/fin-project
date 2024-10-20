@@ -31,4 +31,8 @@
       <Folder Include="Data\Migrations\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Shared\DisplayTemplates\AssetHelper.cshtml" />
+    </ItemGroup>
+
 </Project>

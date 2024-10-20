@@ -3,6 +3,7 @@ using System;
 using FInProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FInProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241020155701_AddedAllAssets")]
+    partial class AddedAllAssets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,52 +47,6 @@ namespace FInProject.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Assets");
-                });
-
-            modelBuilder.Entity("FInProject.Models.AssetTable", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CurrentAssetId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CurrentLiabilitiesAndProvisionId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("LiabilitiesRelatedToNonCurrentAssetsHeldForSaleDisposalGroupId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("LongTermLiabilitiesAndProvisionId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("NonCurrentAssetId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("NonCurrentAssetsHeldForSaleDisposalGroupId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("RegisteredCapitalId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CurrentAssetId");
-
-                    b.HasIndex("CurrentLiabilitiesAndProvisionId");
-
-                    b.HasIndex("LiabilitiesRelatedToNonCurrentAssetsHeldForSaleDisposalGroupId");
-
-                    b.HasIndex("LongTermLiabilitiesAndProvisionId");
-
-                    b.HasIndex("NonCurrentAssetId");
-
-                    b.HasIndex("NonCurrentAssetsHeldForSaleDisposalGroupId");
-
-                    b.HasIndex("RegisteredCapitalId");
-
-                    b.ToTable("AssetTables");
                 });
 
             modelBuilder.Entity("FInProject.Models.CurrentAsset", b =>
@@ -513,65 +470,6 @@ namespace FInProject.Data.Migrations
                     b.HasIndex("WithdrawnCapitalId");
 
                     b.ToTable("RegisteredCapitals");
-                });
-
-            modelBuilder.Entity("FInProject.Models.AssetTable", b =>
-                {
-                    b.HasOne("FInProject.Models.CurrentAsset", "CurrentAsset")
-                        .WithMany()
-                        .HasForeignKey("CurrentAssetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FInProject.Models.CurrentLiabilitiesAndProvision", "CurrentLiabilitiesAndProvision")
-                        .WithMany()
-                        .HasForeignKey("CurrentLiabilitiesAndProvisionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FInProject.Models.LiabilitiesRelatedToNonCurrentAssetsHeldForSaleDisposalGroup", "LiabilitiesRelatedToNonCurrentAssetsHeldForSaleDisposalGroup")
-                        .WithMany()
-                        .HasForeignKey("LiabilitiesRelatedToNonCurrentAssetsHeldForSaleDisposalGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FInProject.Models.LongTermLiabilitiesAndProvision", "LongTermLiabilitiesAndProvision")
-                        .WithMany()
-                        .HasForeignKey("LongTermLiabilitiesAndProvisionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FInProject.Models.NonCurrentAsset", "NonCurrentAsset")
-                        .WithMany()
-                        .HasForeignKey("NonCurrentAssetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FInProject.Models.NonCurrentAssetsHeldForSaleDisposalGroup", "NonCurrentAssetsHeldForSaleDisposalGroup")
-                        .WithMany()
-                        .HasForeignKey("NonCurrentAssetsHeldForSaleDisposalGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FInProject.Models.RegisteredCapital", "RegisteredCapital")
-                        .WithMany()
-                        .HasForeignKey("RegisteredCapitalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CurrentAsset");
-
-                    b.Navigation("CurrentLiabilitiesAndProvision");
-
-                    b.Navigation("LiabilitiesRelatedToNonCurrentAssetsHeldForSaleDisposalGroup");
-
-                    b.Navigation("LongTermLiabilitiesAndProvision");
-
-                    b.Navigation("NonCurrentAsset");
-
-                    b.Navigation("NonCurrentAssetsHeldForSaleDisposalGroup");
-
-                    b.Navigation("RegisteredCapital");
                 });
 
             modelBuilder.Entity("FInProject.Models.CurrentAsset", b =>
